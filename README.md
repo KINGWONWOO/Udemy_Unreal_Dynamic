@@ -1,38 +1,141 @@
-# Dynamic
+# 🌤️ Unreal Dynamic Sky & Weather System
 
-#### Unreal Engine 5 : 강의 하나로 DynamicSky 시스템 완벽 마스터하기!
+> **"시간과 날씨에 따라 변화하는 실시간 환경 시스템 구현"**  
+>
+> Unreal Engine에서 Dynamic Sky Actor를 중심으로  
+> 낮/밤 전환 및 비·눈 환경 효과를 구현한 프로젝트입니다.
 
-##### 21강 : 채널 마스크 매개변수
-- Star의 Tiling을 깨기 위해 강의자가 제공한 Noise Texture 활용
-- 이때 Channel을 선택할 수 있는 Parameter를 추가해주는 ChannelMaskParameter 노드 주목
-![[Pasted image 20241007212201.png]]
-![[Pasted image 20241007212305.png]]
+---
 
-##### 22강 : 별 가시성
-- 별이 낮에도 떠있는 문제 해결 시도 -> TimeOfDay는 Blueprint고 Star Material은 밖에 있는데 어떻게 Communication하지? -> Dynamic Material Instance 사용!
-- 이 연결은 단방향 : 블루프린트가 머터리얼을 읽고 쓸 수는 있으나 반대는 불가능
-- 구상해보기 : Bool Logic을 써서 Star를 끄고 키면 되겠지? -> 그러나 기존의 Material 내에서 사용하던 Static Bool Param/Switch Bool Param은 Dynamic Material Instance 활용 불가 -> If 노드 사용해서 Scalar Parameter 생성!
-![[Pasted image 20241007213332.png]]
-- 블루프린트에 InitSkySphereMaterial 함수 생성 : DynamicMaterialInstance 생성 후 변수에 저장
-![[Pasted image 20241007214441.png]]
-- Construction Script를 통해 생성이 제대로 되었는지 점검
-![[Pasted image 20241007214516.png]]
-- HandleNightSetting에서 이 DMI를 통해 Set Scalar Parameter Value 노드 사용. 이를 통해 IsStarVisible 값 변경(낮, 밤 둘 다 설정)
-![[Pasted image 20241007214613.png]]
+## 📌 Project Overview
 
-##### 23강 : 달
-- Material Graph에서 Ctrl + Space 누르면 Content Browser 열기 가능
-- M_DynamicSkySphere에 Moon 추가
-![[Pasted image 20241007215821.png]]
-![[Pasted image 20241007215829.png]]
-- 새로 알게된 점
-	- Texture Sample 우클릭 후 Texture Object로 변경 가능
-	- SkyAtmosphereImage로 쉽게 달 이미지 추가 가능
-	- SkyAtmosphereLightDirection으로 쉽게 빛의 방향 설정 가능
-	- MakeFloat2 함수로 간단하게 float1->float2 치환 가능
+* **Engine:** Unreal Engine 5  
+* **Development:** 1인 개발 (Blueprint 기반)  
+* **Goal:** Sky Actor와 Weather System의 구조 이해 및 실시간 환경 변화 구현  
 
-##### 24강 : 섹션 챌린지 - 달 가시성
-- 별과 같이 낮에는 달이 안보이도록 설정(Dynamic Material Instance 활용)
-![[Pasted image 20241007220544.png]]
-![[Pasted image 20241007220555.png]]
+### 🎯 핵심 구현 기능
 
+- 🌞 낮 / 🌙 밤 전환 시스템  
+- 🌧️ 비(Rain) + 바닥 물 튀는 효과(Splash)  
+- ❄️ 눈(Snow) + 눈 위 발자국 시스템  
+- 🌫️ 날씨에 따른 시야 감소(Fog 제어)  
+- 🎨 Sky Material 커스터마이징  
+- ✨ Niagara 기반 날씨 VFX 구현  
+
+---
+
+## ⚙️ 주요 구현 내용
+
+### 1️⃣ Day & Night Cycle
+
+- Directional Light 회전 기반 시간 흐름 구현  
+- Sky Atmosphere & Sky Light 연동  
+- 시간에 따른 Sky Material Parameter 변경  
+
+
+Time → Light Rotation → Sky Update → Environment Lighting Change
+
+
+✔ 태양 고도 기반 색감 변화  
+✔ 밤 환경 조도 자동 감소  
+
+---
+
+### 2️⃣ Rain System
+
+- Niagara로 빗방울 생성  
+- Collision 기반 Splash Effect 생성  
+- 플레이어 중심 Spawn 방식으로 최적화  
+
+
+Rain Collision → Event Trigger → Splash Spawn
+
+
+✔ Secondary Emitter 활용  
+✔ Additive Material 적용  
+
+---
+
+### 3️⃣ Snow System
+
+- 느린 낙하 속도 + Drift 적용  
+- Drag 기반 자연스러운 움직임 구현  
+- 눈 위 발자국 시스템 구현 (Decal 기반)
+
+✔ 위치 기반 Footprint 생성  
+✔ 시간 경과에 따른 자연스러운 사라짐 처리  
+
+---
+
+### 4️⃣ Visibility Control
+
+- Exponential Height Fog 밀도 조절  
+- 날씨 상태에 따른 가시거리 감소  
+- 환경 분위기 변화 구현  
+
+---
+
+## 📂 Project Structure
+
+
+Udemy_Unreal_Dynamic/
+├── Blueprints/
+│ ├── BP_DynamicSky
+│ ├── BP_WeatherController
+├── Niagara/
+│ ├── RainSystem
+│ ├── SnowSystem
+│ └── SplashEffect
+├── Materials/
+│ ├── M_Sky
+│ ├── M_SnowGround
+└── Maps/
+
+
+---
+
+## 📚 Study Notes (펼쳐보기)
+
+<details>
+<summary>📖 공부 정리 내용 보기</summary>
+
+### 🔹 Sky System 이해
+
+- Directional Light / Sky Light / Sky Atmosphere 관계 구조 이해  
+- Recapture Sky 개념 학습  
+- Material Parameter Collection 활용  
+
+### 🔹 Niagara 학습 내용
+
+- Spawn Rate vs Burst 차이  
+- Collision Event 기반 Secondary Emitter 구조  
+- GPU vs CPU Simulation 차이 이해  
+
+### 🔹 Material 학습 내용
+
+- Dynamic Material Instance 생성 및 실시간 값 변경  
+- Gradient 기반 Sky 색상 계산 방식 이해  
+- Additive / Translucent Blend Mode 차이  
+
+### 🔹 Environment 연동
+
+- Fog 밀도 조절을 통한 시야 연출  
+- Weather State Enum 기반 시스템 설계  
+- Actor 간 데이터 흐름 구조 이해  
+
+</details>
+
+---
+
+## 🚀 Future Study Plan
+
+- Volumetric Cloud 심화 커스터마이징  
+- GPU Niagara 최적화 연구  
+- 계절 변화 시스템 확장  
+- Sky & Weather를 Gameplay 시스템과 연동  
+- 오픈월드 환경에서의 퍼포먼스 최적화 연구  
+
+---
+
+**Contact:** (Your Name / Email)  
+**GitHub:** https://github.com/KINGWONWOO/Udemy_Unreal_Dynamic  
