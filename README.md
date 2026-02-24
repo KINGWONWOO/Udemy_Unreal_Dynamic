@@ -133,5 +133,4 @@ Rain Collision → Event Trigger → Splash Spawn
 
 ---
 
-**Contact:** (Your Name / Email)  
-**GitHub:** https://github.com/KINGWONWOO/Udemy_Unreal_Dynamic  
+**Contact:** (강원우 / king_wonwoo@naver.com)  
