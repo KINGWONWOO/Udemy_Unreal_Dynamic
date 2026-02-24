@@ -14,7 +14,8 @@
 * **프로젝트명:** Udemy Unreal Niagara DynamicSky Study
 * **유형:** Unreal Engine 기반 실시간 DynamicSky 시스템 학습 프로젝트  
 * **개발 인원:** 1인 개발  
-* **개발 목적:** DynamicSky 및 Lumen 시스템의 구조 및 동작 원리 학습  
+* **공부 목적:** DynamicSky 및 Lumen 시스템의 구조 및 동작 원리 학습
+* **공부 기간:** 2024.10.04.-2024.11.01.
 * **주요 특징:**  
     * Sky Actor와 Weather System의 구조 이해 및 실시간 환경 변화 구현   
     * 눈/비 등 다양한 날씨 구현 및 Material과 상호작용 구현
